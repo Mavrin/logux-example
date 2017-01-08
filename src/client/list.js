@@ -1,24 +1,22 @@
 const { v4 } = require('uuid');
-const ul = document.querySelector('#list');
+const ul = document.querySelector('.todo-list');
 
-function renderItem(item) {
-  const li = document.createElement('li');
-  li.textContent = item.value;
-  const button = document.createElement('button');
-  button.textContent = 'x';
-  button.dataSet = { id:item.id };
-  li.appendChild(button);
-  return li;
+function renderItem({ value, id }) {
+  return `
+          <li>
+              <div class="view">
+                  <label>${value}</label>
+                  <button data-id=${id} class="destroy"></button>
+              </div>
+              <input class="edit" value="${value}">
+          </li>
+          `;
 }
 
 function renderList(items) {
-  ul.innerHTML = '';
-  items.forEach(appendItem);
+  ul.innerHTML = items.map(renderItem).join('');
 }
 
-function appendItem(item) {
-  ul.appendChild(renderItem(item));
-}
 module.exports = {
   renderList,
   onAddItem(cb) {
@@ -27,8 +25,8 @@ module.exports = {
       let input = evt.target.querySelector('input');
       const value = input.value;
       input.value = '';
-      if(value) {
-        const payload = {id: v4(), value};
+      if (value) {
+        const payload = { id: v4(), value };
         cb(payload);
       }
     });
@@ -36,9 +34,8 @@ module.exports = {
   onRemoveItem(cb) {
     document.addEventListener('click', function (evt) {
       let target = evt.target;
-      if (target.tagName === 'BUTTON' && target.parentNode.tagName === 'LI') {
-        evt.preventDefault();
-        const payload = { id: target.dataSet.id };
+      if (target.classList.contains('destroy')) {
+        const payload = { id: target.dataset.id };
         cb(payload);
       }
     });
