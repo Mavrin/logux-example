@@ -1,0 +1,31 @@
+{
+  "name": "logux-example",
+  "version": "1.0.0",
+  "description": "Simple logux example",
+  "main": "index.js",
+  "scripts": {
+    "start":"node ./index.js",
+    "server": "node ./src/server/server.js",
+    "client": "webpack-dev-server --content-base build/ --hot --inline",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mavrin/logux-example.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mavrin/logux-example/issues"
+  },
+  "homepage": "https://github.com/Mavrin/logux-example#readme",
+  "dependencies": {
+    "logux-client": "^0.1.0",
+    "logux-core": "^0.1.0",
+    "logux-server": "^0.1.1",
+    "uuid": "^3.0.1",
+    "webpack": "^2.2.0-rc.3",
+    "webpack-dev-server": "^2.2.0-rc.0"
+  }
+}
