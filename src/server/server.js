@@ -12,11 +12,12 @@ const app = new Server({
   root: __dirname
 });
 
-function senInitialData() {
+function senInitialData(projId) {
   setTimeout(function () {
     const initalData  = JSON.parse(fs.readFileSync(pathToData));
     app.log.add({
       type: 'loadItems',
+      channel: `project/${projId}`,
       payload: {
         items: initalData.items
       }
@@ -25,9 +26,14 @@ function senInitialData() {
 }
 
 app.auth((token) => {
-  senInitialData();
+  // Sending initial state
+  senInitialData('test');
   return Promise.resolve(true);
 });
+
+app.channel('project/:id', (params, action, meta, creator) => {
+  return true
+})
 
 loguxEventsHandler(app, storage, (storage) => {
   fs.writeFileSync(pathToData, JSON.stringify({items: storage.getItems()}));

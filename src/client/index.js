@@ -5,13 +5,19 @@ const token = document.querySelector('meta[name=token]');
 const { storage } = require('../storage');
 const loguxEventsHandler = require('../loguxEventsHandler');
 
-const userId = 'test'
+const projId = 'test'
 
 const logux = new Client({
   credentials: token.content,
   subprotocol: '1.0.0',
   server: server.content,
-  userId
+  userId: navigator.vendor
+});
+
+logux.start();
+
+logux.log.add({ type: 'logux/subscribe', channel: `project/${projId}` }, {
+  sync: true
 });
 
 logux.sync.connection.connect();
@@ -37,6 +43,7 @@ loguxEventsHandler(logux, storage, (storage) => {
 onAddItem(function(payload) {
   logux.log.add({
     type: 'addItem',
+    channel: `project/${projId}`,
     payload
   }, {
     sync: true
@@ -45,6 +52,7 @@ onAddItem(function(payload) {
 onRemoveItem(function(payload) {
   logux.log.add({
     type: 'removeItem',
+    channel: `project/${projId}`,
     payload
   }, {
     sync: true
