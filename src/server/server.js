@@ -1,4 +1,4 @@
-const cleanEvery = require('logux-core').cleanEvery
+// const cleanEvery = require('logux-core').cleanEvery
 const Server = require('logux-server').Server;
 const path = require('path');
 const fs = require('fs');
@@ -30,7 +30,7 @@ app.auth((token) => {
   return Promise.resolve(true);
 });
 
-cleanEvery(app.log);
+// cleanEvery(app.log);
 
 loguxEventsHandler(app, storage, (storage) => {
   fs.writeFileSync(pathToData, JSON.stringify({items: storage.getItems()}));
