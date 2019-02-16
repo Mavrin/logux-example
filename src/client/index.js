@@ -5,12 +5,14 @@ const token = document.querySelector('meta[name=token]');
 const { storage } = require('../storage');
 const loguxEventsHandler = require('../loguxEventsHandler');
 
+const userId = 'test'
+
 const logux = new Client({
   credentials: token.content,
   subprotocol: '1.0.0',
-  url: server.content
+  server: server.content,
+  userId
 });
-
 
 logux.sync.connection.connect();
 
@@ -36,11 +38,15 @@ onAddItem(function(payload) {
   logux.log.add({
     type: 'addItem',
     payload
+  }, {
+    sync: true
   });
 });
 onRemoveItem(function(payload) {
   logux.log.add({
     type: 'removeItem',
     payload
+  }, {
+    sync: true
   });
 });

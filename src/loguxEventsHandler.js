@@ -1,5 +1,5 @@
 module.exports = function (logux, data, handler = ()=>{}) {
-  logux.log.on('event', function (event) {
+  logux.log.on('add', function (event) {
     const {type, payload} = event;
     if(type === 'loadItems') {
       data.load(payload);

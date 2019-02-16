@@ -1,4 +1,3 @@
-// const cleanEvery = require('logux-core').cleanEvery
 const Server = require('logux-server').Server;
 const path = require('path');
 const fs = require('fs');
@@ -30,12 +29,27 @@ app.auth((token) => {
   return Promise.resolve(true);
 });
 
-// cleanEvery(app.log);
-
 loguxEventsHandler(app, storage, (storage) => {
   fs.writeFileSync(pathToData, JSON.stringify({items: storage.getItems()}));
 });
 
+app.type('addItem', {
+  access (action, meta, creator) {
+    return true
+  },
+  process (action) {
+    return true
+  }
+})
+
+app.type('removeItem', {
+  access (action, meta, creator) {
+    return true
+  },
+  process (action) {
+    return true
+  }
+})
 
 if (app.env === 'production') {
   app.listen({ cert: 'cert.pem', key: 'key.pem' })
